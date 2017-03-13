@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>测试小明</title>
+        <meta name="description" content="花瑶花品牌官方网站.">
+        <link rel="stylesheet" href="../css/style.css">
+        <script type="text/javascript" src="../js/jquery.min.js"></script>
+        <script type="text/javascript" src="../js/page.js"></script>
+        <script type="text/javascript">
+            // function setTimeOut(msg,time){
+            //     setTimeOut(function(){
+            //         console.log(msg)
+            //     },time);
+            //  }
+            //  $(function(){
+            //      var People = function(name){
+            //         this.name = name;
+            //         this.wait = function(n){
+            //             setTimeOut('//实际过去'+n+'秒后...',n*1000);
+            //             setTimeOut('//我等待了'+n+'秒',n*1000);
+            //             return this;
+            //         };
+            //         this.hava= function(eat){
+            //             setTimeOut('//吃 '+eat+'~');
+            //             return this;
+            //         };
+            //         this.waitFirst = function(n){
+            //             setTimeOut('//实际过去'+n+'秒后...',n*1000);
+            //             setTimeOut('//我等待了'+n+'秒',n*1000);
+            //         }
+            //         setTimeOut('//你好，世界！我是'+this.name+'！');
+            //      }
+            //  })
+
+
+             function a() {                      //外部闭包域 ,一个名为 a 的 Function 对象
+                var p = 0;                      //私有变量 p
+                var innerA = function () {      //内部闭包域 ,一个名为 innerA 的 Function 对象
+                    console.log(p);             //对外部闭包域的私有变量进行了引用,故 innerA 对象的 function scope 会产生一个名为 closure 的对象属性,closure 对象内含有一个名为 p 的引用
+                }
+
+                innerA();//输出0
+                p++;
+                innerA();//输出1
+            }
+            a();
+
+            // function Person(name) {  
+            //     this.name = name;  
+            // };  
+            // Person.prototype.getName = function() {  
+            //     return this.name;  
+            // };  
+            // var p = new Person("小明");  
+            // console.log(Person.prototype.constructor === Person); // true  
+            // console.log(p.constructor === Person);  // true ,这是因为p本身不包含constructor属性，所以这里其实调用的是Person.prototype.constructor
+            function delay(msg,time){
+                var t=setTimeout(console.log(msg),time);
+            }
+            function People()//创建People对象
+            {
+                this.name ='小明';
+                console.log('//你好，世界！我是'+this.name+'！');
+                this.wait=function(n)
+                {
+                    delay('//实际过去'+n+'秒后...',n*1000);
+                    delay('//我等待了'+n+'秒后...',n*1000);
+                    return this;
+                };
+                this.waitFirst = function(n){
+                    delay('//实际过去'+n+'秒后...',n*1000);
+                    delay('//我等待了'+n+'秒后...',n*1000);
+                    return this;
+                };
+                this.have= function(eat){
+                    console.log('//吃'+eat+'~');
+                }
+            }
+            function writeMsg(){
+                var p = new People();                
+                //p.wait(5);
+                // p.have('早饭');
+                // p.have('晚饭');
+                p.waitFirst(10).have('午饭');
+            }
+            writeMsg();
+            
+            // //基于A类创建了对象
+            // var objA=new People();
+            // wait.prototype=objA;//创建B类对象
+            // function wait(n){
+            //     time('//实际过去'+n+'秒后...',n*1000);
+            //     time('//我等待了'+n+'秒后...',n*1000);
+            // }
+            //People('小明').wait(5);
+
+            
+
+            // function  Person(id) {  
+            //     var  id;  
+            //     this.getId =  function () {  
+            //         return  id;  
+            //     }  
+            //     this.setId =  function (newId) {  
+            //         id = newId;  
+            //     }  
+            // }  
+            // var  p =  new  Person();  
+            // p.setId(1000);  
+            // alert(p.getId()); // 1000   
+            // alert(p.id); // undefined
+            // function createA()//创建一个A类
+            // {
+            //     this.att1="范德萨发生的";
+            //     this.att2=25;
+            //     this.method1=function()
+            //                 {
+            //                     alert("我是A的方法");
+            //                 };
+            // }
+            // //基于A类创建了对象
+            // var objA=new createA();
+            // createB.prototype=new createA();//创建B类对象
+             
+            // //创建一个B类，希望能扩展A类
+            // function createB()
+            // {
+            //     this.att2="B的方法";
+            //     this.method2=function(){
+            //                             alert("我是B的方法");
+            //                                 }
+                 
+            // }
+            // function test(){
+            //     var b=new createB();
+            //     alert(b.att1);
+            //     alert(b.att2);
+            //     b.method1();
+            //     b.method2();
+            // }
+            // test(); 
+        </script>
+    </head>
+    <body>
+        <pre>
+            People('小明') 输出：
+            //你好，世界！我是 小明！
+
+            People('小明').wait(10).have('早饭') 输出：
+            //你好，世界！我是 小明！
+            //实际过去10秒后...
+            //我等待了10秒
+            //吃早饭~
+
+            People('小明') have('早饭').have('午饭') 输出：
+            //你好，世界！我是 小明！
+            //吃早饭
+            //吃午饭
+
+            People('小明') waitFirst(5).have('午饭') 输出：
+            //实际过去5秒后...
+            //我等待了5秒
+            //你好，世界！我是 小明！
+            //吃午饭~
+        </pre>
+    </body>
+</html>

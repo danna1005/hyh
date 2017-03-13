@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html>    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>测试小明</title>
+        <meta name="description" content="花瑶花品牌官方网站.">
+        <link rel="stylesheet" href="../css/style.css">
+        <style type="text/css">
+            .table-bordered {border-radius: 5px; border: 1px solid #ddd}
+            .table-bordered td,.table-bordered th{border:1px solid #ddd; padding: 8px;}
+        </style>
+        <script type="text/javascript" src="../js/jquery.min.js"></script>
+        <script type="text/javascript" src="../js/page.js"></script>
+        <script type="text/javascript" src="../js/jquery.mergecells.js"></script>
+        <script type="text/javascript">
+            $(function(){
+                setTab(); 
+                function setTab(){
+                   var scrollWidth = $('.tabBody')[0].offsetWidth-$('.tabBody')[0].scrollWidth //获取滚动条宽度
+                   ,   headerPanelWidth = $('.tabHeader').parent().width()
+                   ,   headerWidth = headerPanelWidth-scrollWidth;
+                   $('.tabHeader').css('width',headerWidth); //设置表头宽度为表身宽+滚动条宽
+                }
+
+                $(window).resize(function(){
+                   setTab();
+                })
+                $('#mytable1').rowspan(0);
+                // merge3();
+                //merge2('mytable1');
+                function merge2(obj){
+                    var totalCols = obj.find("tr:eq(0)").find("td").length;
+                    var totalRows = obj.find("tr").length;
+                    for ( var i = totalCols-1; i >= 1; i--) {
+                        for ( var j = totalRows-1; j >= 1; j--) {
+                            startCell = obj.find("tr").eq(j).find("td").eq(i);
+                            targetCell = obj.find("tr").eq(j - 1).find("td").eq(i);
+                            if (startCell.text() == targetCell.text() && targetCell.text() != "") {
+                                targetCell.attr("rowSpan", (startCell.attr("rowSpan")==undefined)?2:(eval(startCell.attr("rowSpan"))+1));
+                                startCell.remove();
+                            }
+                        }
+                    }
+                }
+                $('#mytable1').mergecells();
+                jQuery.fn.merge= function(){
+                    return this.each(function(){
+                        var $this = $(this);
+                        var totalCols = $this.find("tr:eq(0)").find("td").length;
+                        var totalRows = $this.find("tr").length;
+                        for ( var i = totalCols-1; i >= 1; i--) {
+                            for ( var j = totalRows-1; j >= 1; j--) {
+                                startCell = $this.find("tr").eq(j).find("td").eq(i);
+                                targetCell = $this.find("tr").eq(j - 1).find("td").eq(i);
+                                if (startCell.text() == targetCell.text() && targetCell.text() != "") {
+                                    targetCell.attr("rowSpan", (startCell.attr("rowSpan")==undefined)?2:(eval(startCell.attr("rowSpan"))+1));
+                                    startCell.remove();
+                                }
+                            }
+                        }
+                    })
+                }
+               
+
+
+
+
+                function merge3(){
+                    var totalCols = $("#mytable1").find("tr:eq(0)").find("td").length;
+                    var totalRows = $("#mytable1").find("tr").length;
+                    for(var col=totalCols-1;col>=1;col--){
+                        spanNum =1;
+                        startCell = $("#mytable1").find("tr").eq(totalRows-1).find("td").eq(col);
+                        for(var row = totalRows-1;row>=1;row--){
+                            targetCell = $("#mytable1").find("tr").eq(row-1).find("td").eq(col);
+                            if(startCell.text() == targetCell.text() && startCell.text()!=""){
+                                spanNum++;
+                                targetCell.attr("rowSpan",spanNum);
+                                startCell.attr("style","visibility:hidden");
+        // startCell.attr("style","display:none"); 
+                            }else{
+                                spanNum =1;
+                            }
+                            startCell = targetCell;
+                        }
+                    }
+                    for(var j=totalCols-1;j>=1;j--){
+                        for(var i=totalRows-1;i>=1;i--){
+                            cell = $("#mytable1").find("tr").eq(i).find("td").eq(j);
+                            if(cell.attr("style")!=undefined){
+                                if(cell.attr("style")=="visibility:hidden"){
+                                    cell.remove();
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+            
+        </script>
+    </head>
+    <body>
+        <div class="content" style="width:3200px;overflow:hiddden;">
+        <div style="overflow: hidden; margin-top: 40px;" class="tabHeader">
+           <table style="table-layout:fixed;margin-bottom:-1px;" class="table table-bordered" id="mytable">
+            <thead class="header">
+                <tr>
+                <th style="width: 40px">序号</th>
+                <th style="width: 120px">检验单号</th>
+                <th style="width: 120px">报检单号</th>
+                <th style="width: 100px">检测中心</th>
+                <th style="width: 120px">检验部门</th>
+                <th style="width: 100px">物料编码</th>
+                <th style="width: 150px">物料名称</th>
+                <th style="width: 50px">规格</th>
+                <th style="width: 50px">型号</th>
+                <th style="width: 100px">物料批次号</th>
+                <th style="width: 100px">检验方案</th>
+                <th style="width: 100px">检测室</th>
+                <th style="width: 100px">外部检测机构</th>
+                <th style="width: 50px">样本号</th>
+                <th style="width: 80px">检验项目编码</th>
+                <th style="width: 100px">检验项目名称</th>
+                <th style="width: 100px">关键项目</th>
+                <th style="width: 100px">必须达到</th>
+                <th style="width: 100px">检验值单位</th>
+                <th style="width: 100px">实际检验值</th>
+                <th style="width: 350px">标准值</th>
+                <th style="width: 60px">检验结果</th>
+                <th style="width: 60px">达标</th>
+                <th style="width: 130px">单据时间</th>
+                </tr>
+            </thead>
+           </table>
+        </div>
+        <div class="tabBody" style="overflow:hidden; width:100%;"></div>
+        <table style="table-layout:fixed;" class="table table-bordered" id="mytable1">
+		<tbody>
+			<tr>
+			    <td style="width: 40px">1</td>
+				<td title="JY201509171978" style="width: 120px">JY201509171978</td>
+				<td title="BJ201509172091" style="width: 120px">BJ201509172091</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="140189" style="width: 100px">140189</td>
+				<td title="杜邦蚕丝无纺布" style="width: 150px">杜邦蚕丝无纺布</td>
+				<td title="张" style="width: 50px">张</td>
+				<td title="通用" style="width: 50px">通用</td>
+				<td title="B15090605" style="width: 100px">B15090605</td>
+				<td title="面贴、鼻贴布" style="width: 100px">面贴、鼻贴布</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00801" style="width: 80px">00801</td>
+				<td title="外观" style="width: 100px">外观</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="符合标样" style="width: 100px">符合标样</td>
+				<td title="{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}" style="width: 350px">{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-17 10:20:19" style="width: 130px">2015-09-17 10:20:19</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">2</td>
+				<td title="JY201509171978" style="width: 120px">JY201509171978</td>
+				<td title="BJ201509172091" style="width: 120px">BJ201509172091</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="140189" style="width: 100px">140189</td>
+				<td title="杜邦蚕丝无纺布" style="width: 150px">杜邦蚕丝无纺布</td>
+				<td title="张" style="width: 50px">张</td>
+				<td title="通用" style="width: 50px">通用</td>
+				<td title="B15090605" style="width: 100px">B15090605</td>
+				<td title="面贴、鼻贴布" style="width: 100px">面贴、鼻贴布</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00805" style="width: 80px">00805</td>
+				<td title="尺寸" style="width: 100px">尺寸</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="符合标样" style="width: 100px">符合标样</td>
+				<td title="{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}" style="width: 350px">{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-17 10:20:19" style="width: 130px">2015-09-17 10:20:19</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">3</td>
+				<td title="JY201509171978" style="width: 120px">JY201509171978</td>
+				<td title="BJ201509172091" style="width: 120px">BJ201509172091</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="140189" style="width: 100px">140189</td>
+				<td title="杜邦蚕丝无纺布" style="width: 150px">杜邦蚕丝无纺布</td>
+				<td title="张" style="width: 50px">张</td>
+				<td title="通用" style="width: 50px">通用</td>
+				<td title="B15090605" style="width: 100px">B15090605</td>
+				<td title="面贴、鼻贴布" style="width: 100px">面贴、鼻贴布</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00806" style="width: 80px">00806</td>
+				<td title="材质" style="width: 100px">材质</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="符合标样" style="width: 100px">符合标样</td>
+				<td title="{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}" style="width: 350px">{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-17 10:20:19" style="width: 130px">2015-09-17 10:20:19</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">4</td>
+				<td title="JY201509171978" style="width: 120px">JY201509171978</td>
+				<td title="BJ201509172091" style="width: 120px">BJ201509172091</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="140189" style="width: 100px">140189</td>
+				<td title="杜邦蚕丝无纺布" style="width: 150px">杜邦蚕丝无纺布</td>
+				<td title="张" style="width: 50px">张</td>
+				<td title="通用" style="width: 50px">通用</td>
+				<td title="B15090605" style="width: 100px">B15090605</td>
+				<td title="面贴、鼻贴布" style="width: 100px">面贴、鼻贴布</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00812" style="width: 80px">00812</td>
+				<td title="克重" style="width: 100px">克重</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="符合标样" style="width: 100px">符合标样</td>
+				<td title="{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}" style="width: 350px">{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-17 10:20:19" style="width: 130px">2015-09-17 10:20:19</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">5</td>
+				<td title="JY201509171978" style="width: 120px">JY201509171978</td>
+				<td title="BJ201509172091" style="width: 120px">BJ201509172091</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="140189" style="width: 100px">140189</td>
+				<td title="杜邦蚕丝无纺布" style="width: 150px">杜邦蚕丝无纺布</td>
+				<td title="张" style="width: 50px">张</td>
+				<td title="通用" style="width: 50px">通用</td>
+				<td title="B15090605" style="width: 100px">B15090605</td>
+				<td title="面贴、鼻贴布" style="width: 100px">面贴、鼻贴布</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00829" style="width: 80px">00829</td>
+				<td title="刀口" style="width: 100px">刀口</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="符合标样" style="width: 100px">符合标样</td>
+				<td title="{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}" style="width: 350px">{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-17 10:20:19" style="width: 130px">2015-09-17 10:20:19</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">6</td>
+				<td title="JY201509171978" style="width: 120px">JY201509171978</td>
+				<td title="BJ201509172091" style="width: 120px">BJ201509172091</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="140189" style="width: 100px">140189</td>
+				<td title="杜邦蚕丝无纺布" style="width: 150px">杜邦蚕丝无纺布</td>
+				<td title="张" style="width: 50px">张</td>
+				<td title="通用" style="width: 50px">通用</td>
+				<td title="B15090605" style="width: 100px">B15090605</td>
+				<td title="面贴、鼻贴布" style="width: 100px">面贴、鼻贴布</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00830" style="width: 80px">00830</td>
+				<td title="结构" style="width: 100px">结构</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="符合标样" style="width: 100px">符合标样</td>
+				<td title="{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}" style="width: 350px">{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-17 10:20:19" style="width: 130px">2015-09-17 10:20:19</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">7</td>
+				<td title="JY201509171979" style="width: 120px">JY201509171979</td>
+				<td title="BJ201509172097" style="width: 120px">BJ201509172097</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="30603501" style="width: 100px">30603501</td>
+				<td title="A086" style="width: 150px">A086</td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="MC-150528" style="width: 100px">MC-150528</td>
+				<td title="a086" style="width: 100px">a086</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="020" style="width: 80px">020</td>
+				<td title="灰分" style="width: 100px">灰分</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="%" style="width: 100px">%</td>
+				<td title="0.300000" style="width: 100px">0.300000</td>
+				<td title="{合格:[0,0.5]},{不合格:(0.5,)}" style="width: 350px">{合格:[0,0.5]},{不合格:(0.5,)}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-17 11:49:08" style="width: 130px">2015-09-17 11:49:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">8</td>
+				<td title="JY201509171979" style="width: 120px">JY201509171979</td>
+				<td title="BJ201509172097" style="width: 120px">BJ201509172097</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="30603501" style="width: 100px">30603501</td>
+				<td title="A086" style="width: 150px">A086</td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="MC-150528" style="width: 100px">MC-150528</td>
+				<td title="a086" style="width: 100px">a086</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00201" style="width: 80px">00201</td>
+				<td title="颜色" style="width: 100px">颜色</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="黄色至黄绿色" style="width: 100px">黄色至黄绿色</td>
+				<td title="{合格:黄色至黄绿色},{不合格:非黄色至黄绿色}" style="width: 350px">{合格:黄色至黄绿色},{不合格:非黄色至黄绿色}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-17 11:49:08" style="width: 130px">2015-09-17 11:49:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">9</td>
+				<td title="JY201509171979" style="width: 120px">JY201509171979</td>
+				<td title="BJ201509172097" style="width: 120px">BJ201509172097</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="30603501" style="width: 100px">30603501</td>
+				<td title="A086" style="width: 150px">A086</td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="MC-150528" style="width: 100px">MC-150528</td>
+				<td title="a086" style="width: 100px">a086</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00202" style="width: 80px">00202</td>
+				<td title="气味" style="width: 100px">气味</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="特征气味" style="width: 100px">特征气味</td>
+				<td title="{合格:特征气味},{不合格:非特征气味}" style="width: 350px">{合格:特征气味},{不合格:非特征气味}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-17 11:49:08" style="width: 130px">2015-09-17 11:49:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">10</td>
+				<td title="JY201509171979" style="width: 120px">JY201509171979</td>
+				<td title="BJ201509172097" style="width: 120px">BJ201509172097</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="30603501" style="width: 100px">30603501</td>
+				<td title="A086" style="width: 150px">A086</td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="MC-150528" style="width: 100px">MC-150528</td>
+				<td title="a086" style="width: 100px">a086</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00203" style="width: 80px">00203</td>
+				<td title="外观形态" style="width: 100px">外观形态</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="液体" style="width: 100px">液体</td>
+				<td title="{合格:液体},{不合格:非液体}" style="width: 350px">{合格:液体},{不合格:非液体}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-17 11:49:08" style="width: 130px">2015-09-17 11:49:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">11</td>
+				<td title="JY201509171979" style="width: 120px">JY201509171979</td>
+				<td title="BJ201509172097" style="width: 120px">BJ201509172097</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="30603501" style="width: 100px">30603501</td>
+				<td title="A086" style="width: 150px">A086</td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="MC-150528" style="width: 100px">MC-150528</td>
+				<td title="a086" style="width: 100px">a086</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00302" style="width: 80px">00302</td>
+				<td title="相对密度" style="width: 100px">相对密度</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="0.960000" style="width: 100px">0.960000</td>
+				<td title="{合格:[0.90,0.98]},{不合格:(0,0.90),(0.98,)}" style="width: 350px">{合格:[0.90,0.98]},{不合格:(0,0.90),(0.98,)}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-17 11:49:08" style="width: 130px">2015-09-17 11:49:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">12</td>
+				<td title="JY201509171979" style="width: 120px">JY201509171979</td>
+				<td title="BJ201509172097" style="width: 120px">BJ201509172097</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="30603501" style="width: 100px">30603501</td>
+				<td title="A086" style="width: 150px">A086</td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="MC-150528" style="width: 100px">MC-150528</td>
+				<td title="a086" style="width: 100px">a086</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00303" style="width: 80px">00303</td>
+				<td title="折光率" style="width: 100px">折光率</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="1.435800" style="width: 100px">1.435800</td>
+				<td title="{合格:[1.43,1.47]},{不合格:(0,1.43),(1.47,)}" style="width: 350px">{合格:[1.43,1.47]},{不合格:(0,1.43),(1.47,)}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-17 11:49:08" style="width: 130px">2015-09-17 11:49:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">13</td>
+				<td title="JY201509171980" style="width: 120px">JY201509171980</td>
+				<td title="BJ201509172098" style="width: 120px">BJ201509172098</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="30603401" style="width: 100px">30603401</td>
+				<td title="A051" style="width: 150px">A051</td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="13378621" style="width: 100px">13378621</td>
+				<td title="A051" style="width: 100px">A051</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00101" style="width: 80px">00101</td>
+				<td title="菌落总数" style="width: 100px">菌落总数</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="cfu/ml" style="width: 100px">cfu/ml</td>
+				<td title="" style="width: 100px"></td>
+				<td title="{合格:[0,100)},{不合格:[100,)}" style="width: 350px">{合格:[0,100)},{不合格:[100,)}</td>
+				<td title="" style="width: 60px"></td>
+				<td title="N" style="width: 60px">N</td>
+				<td title="2015-09-17 14:49:23" style="width: 130px">2015-09-17 14:49:23</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">14</td>
+				<td title="JY201509171980" style="width: 120px">JY201509171980</td>
+				<td title="BJ201509172098" style="width: 120px">BJ201509172098</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="30603401" style="width: 100px">30603401</td>
+				<td title="A051" style="width: 150px">A051</td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="13378621" style="width: 100px">13378621</td>
+				<td title="A051" style="width: 100px">A051</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00102" style="width: 80px">00102</td>
+				<td title="霉菌和酵母菌" style="width: 100px">霉菌和酵母菌</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="cfu/ml" style="width: 100px">cfu/ml</td>
+				<td title="" style="width: 100px"></td>
+				<td title="{合格:[0,100)},{不合格:[100,)}" style="width: 350px">{合格:[0,100)},{不合格:[100,)}</td>
+				<td title="" style="width: 60px"></td>
+				<td title="N" style="width: 60px">N</td>
+				<td title="2015-09-17 14:49:23" style="width: 130px">2015-09-17 14:49:23</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">15</td>
+				<td title="JY201509171980" style="width: 120px">JY201509171980</td>
+				<td title="BJ201509172098" style="width: 120px">BJ201509172098</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="30603401" style="width: 100px">30603401</td>
+				<td title="A051" style="width: 150px">A051</td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="13378621" style="width: 100px">13378621</td>
+				<td title="A051" style="width: 100px">A051</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00203" style="width: 80px">00203</td>
+				<td title="外观形态" style="width: 100px">外观形态</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="{合格:黄色透明液体
+},{不合格:不符合标准}" style="width: 350px">{合格:黄色透明液体
+},{不合格:不符合标准}</td>
+				<td title="" style="width: 60px"></td>
+				<td title="N" style="width: 60px">N</td>
+				<td title="2015-09-17 14:49:23" style="width: 130px">2015-09-17 14:49:23</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">16</td>
+				<td title="JY201509171980" style="width: 120px">JY201509171980</td>
+				<td title="BJ201509172098" style="width: 120px">BJ201509172098</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="30603401" style="width: 100px">30603401</td>
+				<td title="A051" style="width: 150px">A051</td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="13378621" style="width: 100px">13378621</td>
+				<td title="A051" style="width: 100px">A051</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00304" style="width: 80px">00304</td>
+				<td title="PH值" style="width: 100px">PH值</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="{合格:[5,7]},{不合格:[0,5),(7,)}" style="width: 350px">{合格:[5,7]},{不合格:[0,5),(7,)}</td>
+				<td title="" style="width: 60px"></td>
+				<td title="N" style="width: 60px">N</td>
+				<td title="2015-09-17 14:49:23" style="width: 130px">2015-09-17 14:49:23</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">17</td>
+				<td title="JY201509181990" style="width: 120px">JY201509181990</td>
+				<td title="BJ201509162111" style="width: 120px">BJ201509162111</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 150px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="20150829ALC13SG" style="width: 100px">20150829ALC13SG</td>
+				<td title="面膜贴" style="width: 100px">面膜贴</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="006" style="width: 80px">006</td>
+				<td title="净含量" style="width: 100px">净含量</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="平均净含量大于标示值" style="width: 100px">平均净含量大于标示值</td>
+				<td title="{合格:平均净含量大于标示值},{不合格:平均净含量小于标示值}" style="width: 350px">{合格:平均净含量大于标示值},{不合格:平均净含量小于标示值}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-18 11:24:08" style="width: 130px">2015-09-18 11:24:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">18</td>
+				<td title="JY201509181990" style="width: 120px">JY201509181990</td>
+				<td title="BJ201509162111" style="width: 120px">BJ201509162111</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 150px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="20150829ALC13SG" style="width: 100px">20150829ALC13SG</td>
+				<td title="面膜贴" style="width: 100px">面膜贴</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00101" style="width: 80px">00101</td>
+				<td title="菌落总数" style="width: 100px">菌落总数</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="cfu/ml" style="width: 100px">cfu/ml</td>
+				<td title="0.000000" style="width: 100px">0.000000</td>
+				<td title="{合格:[0,100)},{不合格:[100,)}" style="width: 350px">{合格:[0,100)},{不合格:[100,)}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-18 11:24:08" style="width: 130px">2015-09-18 11:24:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">19</td>
+				<td title="JY201509181990" style="width: 120px">JY201509181990</td>
+				<td title="BJ201509162111" style="width: 120px">BJ201509162111</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 150px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="20150829ALC13SG" style="width: 100px">20150829ALC13SG</td>
+				<td title="面膜贴" style="width: 100px">面膜贴</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00102" style="width: 80px">00102</td>
+				<td title="霉菌和酵母菌" style="width: 100px">霉菌和酵母菌</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="cfu/ml" style="width: 100px">cfu/ml</td>
+				<td title="0.000000" style="width: 100px">0.000000</td>
+				<td title="{合格:(,0]},{不合格:(0,)}" style="width: 350px">{合格:(,0]},{不合格:(0,)}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-18 11:24:08" style="width: 130px">2015-09-18 11:24:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">20</td>
+				<td title="JY201509181990" style="width: 120px">JY201509181990</td>
+				<td title="BJ201509162111" style="width: 120px">BJ201509162111</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 150px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="20150829ALC13SG" style="width: 100px">20150829ALC13SG</td>
+				<td title="面膜贴" style="width: 100px">面膜贴</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00103" style="width: 80px">00103</td>
+				<td title="金黄色葡萄球菌" style="width: 100px">金黄色葡萄球菌</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="cfu/ml" style="width: 100px">cfu/ml</td>
+				<td title="0.000000" style="width: 100px">0.000000</td>
+				<td title="{合格:(,0]},{不合格:(0,)}" style="width: 350px">{合格:(,0]},{不合格:(0,)}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-18 11:24:08" style="width: 130px">2015-09-18 11:24:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">21</td>
+				<td title="JY201509181990" style="width: 120px">JY201509181990</td>
+				<td title="BJ201509162111" style="width: 120px">BJ201509162111</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 150px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="20150829ALC13SG" style="width: 100px">20150829ALC13SG</td>
+				<td title="面膜贴" style="width: 100px">面膜贴</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00104" style="width: 80px">00104</td>
+				<td title="铜绿假单胞菌" style="width: 100px">铜绿假单胞菌</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="cfu/ml" style="width: 100px">cfu/ml</td>
+				<td title="0.000000" style="width: 100px">0.000000</td>
+				<td title="{合格:(,0]},{不合格:(0,)}" style="width: 350px">{合格:(,0]},{不合格:(0,)}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-18 11:24:08" style="width: 130px">2015-09-18 11:24:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">22</td>
+				<td title="JY201509181990" style="width: 120px">JY201509181990</td>
+				<td title="BJ201509162111" style="width: 120px">BJ201509162111</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 150px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="20150829ALC13SG" style="width: 100px">20150829ALC13SG</td>
+				<td title="面膜贴" style="width: 100px">面膜贴</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00105" style="width: 80px">00105</td>
+				<td title="大肠杆菌" style="width: 100px">大肠杆菌</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="cfu/ml" style="width: 100px">cfu/ml</td>
+				<td title="0.000000" style="width: 100px">0.000000</td>
+				<td title="{合格:(,0]},{不合格:(0,)}" style="width: 350px">{合格:(,0]},{不合格:(0,)}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-18 11:24:08" style="width: 130px">2015-09-18 11:24:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">23</td>
+				<td title="JY201509181990" style="width: 120px">JY201509181990</td>
+				<td title="BJ201509162111" style="width: 120px">BJ201509162111</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 150px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="20150829ALC13SG" style="width: 100px">20150829ALC13SG</td>
+				<td title="面膜贴" style="width: 100px">面膜贴</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00203" style="width: 80px">00203</td>
+				<td title="外观形态" style="width: 100px">外观形态</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="符合产品外观要求" style="width: 100px">符合产品外观要求</td>
+				<td title="{合格:符合产品外观要求},{不合格:不符合产品外观要求}" style="width: 350px">{合格:符合产品外观要求},{不合格:不符合产品外观要求}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-18 11:24:08" style="width: 130px">2015-09-18 11:24:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">24</td>
+				<td title="JY201509181990" style="width: 120px">JY201509181990</td>
+				<td title="BJ201509162111" style="width: 120px">BJ201509162111</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 150px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="20150829ALC13SG" style="width: 100px">20150829ALC13SG</td>
+				<td title="面膜贴" style="width: 100px">面膜贴</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00304" style="width: 80px">00304</td>
+				<td title="PH值" style="width: 100px">PH值</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="6.120000" style="width: 100px">6.120000</td>
+				<td title="{合格:[3.5,8.5]},{不合格:(0,3.5)}" style="width: 350px">{合格:[3.5,8.5]},{不合格:(0,3.5)}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-18 11:24:08" style="width: 130px">2015-09-18 11:24:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">25</td>
+				<td title="JY201509181990" style="width: 120px">JY201509181990</td>
+				<td title="BJ201509162111" style="width: 120px">BJ201509162111</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 150px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="20150829ALC13SG" style="width: 100px">20150829ALC13SG</td>
+				<td title="面膜贴" style="width: 100px">面膜贴</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00328" style="width: 80px">00328</td>
+				<td title="粘度" style="width: 100px">粘度</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="符合标准" style="width: 100px">符合标准</td>
+				<td title="{合格:符合标准},{不合格:不符合标准}" style="width: 350px">{合格:符合标准},{不合格:不符合标准}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-18 11:24:08" style="width: 130px">2015-09-18 11:24:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">26</td>
+				<td title="JY201509181990" style="width: 120px">JY201509181990</td>
+				<td title="BJ201509162111" style="width: 120px">BJ201509162111</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 150px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="20150829ALC13SG" style="width: 100px">20150829ALC13SG</td>
+				<td title="面膜贴" style="width: 100px">面膜贴</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00501" style="width: 80px">00501</td>
+				<td title="外箱" style="width: 100px">外箱</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="符合外箱标准要求" style="width: 100px">符合外箱标准要求</td>
+				<td title="{合格:符合外箱标准要求},{不合格:不符合外箱标准要求}" style="width: 350px">{合格:符合外箱标准要求},{不合格:不符合外箱标准要求}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-18 11:24:08" style="width: 130px">2015-09-18 11:24:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">27</td>
+				<td title="JY201509181990" style="width: 120px">JY201509181990</td>
+				<td title="BJ201509162111" style="width: 120px">BJ201509162111</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 150px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="" style="width: 50px"></td>
+				<td title="20150829ALC13SG" style="width: 100px">20150829ALC13SG</td>
+				<td title="面膜贴" style="width: 100px">面膜贴</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00502" style="width: 80px">00502</td>
+				<td title="密封性" style="width: 100px">密封性</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="封口平整，无褶皱，不漏料" style="width: 100px">封口平整，无褶皱，不漏料</td>
+				<td title="{合格:封口平整，无褶皱，不漏料},{不合格:封口不平整，褶皱，漏料}" style="width: 350px">{合格:封口平整，无褶皱，不漏料},{不合格:封口不平整，褶皱，漏料}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-18 11:24:08" style="width: 130px">2015-09-18 11:24:08</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">28</td>
+				<td title="JY201509232072" style="width: 120px">JY201509232072</td>
+				<td title="BJ201509232209" style="width: 120px">BJ201509232209</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="1015291220" style="width: 100px">1015291220</td>
+				<td title="芦荟补水保湿凝胶手拉垫片" style="width: 150px">芦荟补水保湿凝胶手拉垫片</td>
+				<td title="150g" style="width: 50px">150g</td>
+				<td title="" style="width: 50px"></td>
+				<td title="B15091917" style="width: 100px">B15091917</td>
+				<td title="手拉垫片" style="width: 100px">手拉垫片</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00705" style="width: 80px">00705</td>
+				<td title="其他" style="width: 100px">其他</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="符合标样" style="width: 100px">符合标样</td>
+				<td title="{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}" style="width: 350px">{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-23 11:17:52" style="width: 130px">2015-09-23 11:17:52</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">29</td>
+				<td title="JY201509232072" style="width: 120px">JY201509232072</td>
+				<td title="BJ201509232209" style="width: 120px">BJ201509232209</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="1015291220" style="width: 100px">1015291220</td>
+				<td title="芦荟补水保湿凝胶手拉垫片" style="width: 150px">芦荟补水保湿凝胶手拉垫片</td>
+				<td title="150g" style="width: 50px">150g</td>
+				<td title="" style="width: 50px"></td>
+				<td title="B15091917" style="width: 100px">B15091917</td>
+				<td title="手拉垫片" style="width: 100px">手拉垫片</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00801" style="width: 80px">00801</td>
+				<td title="外观" style="width: 100px">外观</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="符合标样" style="width: 100px">符合标样</td>
+				<td title="{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}" style="width: 350px">{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-23 11:17:52" style="width: 130px">2015-09-23 11:17:52</td>
+			</tr>
+		
+			<tr>
+			    <td style="width: 40px">30</td>
+				<td title="JY201509232072" style="width: 120px">JY201509232072</td>
+				<td title="BJ201509232209" style="width: 120px">BJ201509232209</td>
+				<td title="乐宝工厂" style="width: 100px">乐宝工厂</td>
+				<td title="" style="width: 120px"></td>
+				<td title="1015291220" style="width: 100px">1015291220</td>
+				<td title="芦荟补水保湿凝胶手拉垫片" style="width: 150px">芦荟补水保湿凝胶手拉垫片</td>
+				<td title="150g" style="width: 50px">150g</td>
+				<td title="" style="width: 50px"></td>
+				<td title="B15091917" style="width: 100px">B15091917</td>
+				<td title="手拉垫片" style="width: 100px">手拉垫片</td>
+				<td title="" style="width: 100px"></td>
+				<td title="" style="width: 100px"></td>
+				<td title="1" style="width: 50px">1</td>
+				<td title="00802" style="width: 80px">00802</td>
+				<td title="卫生" style="width: 100px">卫生</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="N" style="width: 100px">N</td>
+				<td title="" style="width: 100px"></td>
+				<td title="符合标样" style="width: 100px">符合标样</td>
+				<td title="{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}" style="width: 350px">{合格:符合标样},{C类缺陷:轻微缺陷},{B类缺陷:中度缺陷},{A类缺陷:严重缺陷}</td>
+				<td title="合格" style="width: 60px">合格</td>
+				<td title="Y" style="width: 60px">Y</td>
+				<td title="2015-09-23 11:17:52" style="width: 130px">2015-09-23 11:17:52</td>
+			</tr>	
+		</tbody>
+	</table>
+            </div>
+    </body>
+</html>
